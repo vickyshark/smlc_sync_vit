@@ -1,6 +1,6 @@
 package com.example.smlc_sync_vit.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -2,7 +2,6 @@ package com.example.smlc_sync_vit.service;
 
 import com.example.smlc_sync_vit.model.SyncLog;
 import com.example.smlc_sync_vit.repo.SyncLogRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -13,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -194,7 +195,7 @@ public class SyncService implements CommandLineRunner {
                     .filter(path -> path.toString().endsWith("data_setup.sql"))
                     .filter(path -> extractNumber(path.toString()) >= extractNumber(buildVersion))
                     .sorted(Comparator.comparingInt(p -> extractNumber(p.toString())))
-                    .toList();
+                    .collect(Collectors.toList());
 
             String lastRunBuild = buildVersion;
             long lastRunLine = 0;
@@ -229,15 +230,12 @@ public class SyncService implements CommandLineRunner {
 
     @PostConstruct
     public void initSyncLogTable() {
-        jdbcTemplate.execute("""
-                CREATE SEQUENCE IF NOT EXISTS SYNC_VIT_LOG_SEQ START 1 INCREMENT 1;
-                
-                CREATE TABLE IF NOT EXISTS SYNC_VIT_LOG (
-                     id SERIAL PRIMARY KEY,
-                     build_version VARCHAR,
-                     line NUMERIC,
-                     sync_finished_at TIMESTAMP
-                 );
-                """);
+        jdbcTemplate.execute("CREATE SEQUENCE IF NOT EXISTS SYNC_VIT_LOG_SEQ START 1 INCREMENT 1;\n" +
+                "                CREATE TABLE IF NOT EXISTS SYNC_VIT_LOG (\n" +
+                "                     id SERIAL PRIMARY KEY,\n" +
+                "                     build_version VARCHAR,\n" +
+                "                     line NUMERIC,\n" +
+                "                     sync_finished_at TIMESTAMP\n" +
+                "                 );");
     }
 }
