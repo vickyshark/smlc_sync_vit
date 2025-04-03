@@ -230,6 +230,8 @@ public class SyncService implements CommandLineRunner {
     @PostConstruct
     public void initSyncLogTable() {
         jdbcTemplate.execute("""
+                CREATE SEQUENCE IF NOT EXISTS SYNC_VIT_LOG_SEQ START 1 INCREMENT 1;
+                
                 CREATE TABLE IF NOT EXISTS SYNC_VIT_LOG (
                      id SERIAL PRIMARY KEY,
                      build_version VARCHAR,

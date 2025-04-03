@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 public class SyncLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "SYNC_VIT_LOG_SEQ", allocationSize = 1)
     private long id;
 
     @Column(name = "build_version")
