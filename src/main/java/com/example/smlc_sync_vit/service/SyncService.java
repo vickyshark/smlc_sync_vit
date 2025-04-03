@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
-@PropertySource("classpath:envs.properties")
 public class SyncService implements CommandLineRunner {
 
     private static final String DATA_SETUP_NAME = "data_setup.sql";
