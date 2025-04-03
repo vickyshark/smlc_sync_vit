@@ -51,7 +51,7 @@ public class SyncService implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        log.info("Start sync... syncOption :: {}, startLine :: {}", syncOption, startLine);
+        log.info("Start sync...\nBase Path :: {}\nSyncOption :: {}\nStartLine :: {}", basePath, syncOption, startLine);
         if (StringUtils.isBlank(syncOption)) {
             log.warn("Invalid sync option, valid options are : CONTINUE, FROM_BUILD_Bxx");
             return;
