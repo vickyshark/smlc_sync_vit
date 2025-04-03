@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @Service
 public class SyncService implements CommandLineRunner {
 
-    private static final String DATA_SETUP_NAME = "data_setup.sql";
+    private static final String DATA_SETUP_NAME = "2.data_setup.sql";
     @Value("${base.path}")
     private String basePath;
     @Value("${sync.option}")
