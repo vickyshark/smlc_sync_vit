@@ -170,14 +170,15 @@ public class SyncService implements CommandLineRunner {
 
         final String filePath = getFilePath(buildVersion);
         try {
-            List<String> allLines = Files.readAllLines(Paths.get(filePath));
+            Path path = Paths.get(filePath);
+            List<String> allLines = Files.readAllLines(path);
             if (fromLine > allLines.size()) {
                 log.error("Start line exceeds file length, nothing to run");
                 throw new RuntimeException("Bad input");
             }
 
-            String sqlScript = String.join("\n", allLines.subList((int) fromLine - 1, allLines.size()));
-            jdbcTemplate.execute(sqlScript);
+            String sql = Files.readString(path, StandardCharsets.UTF_8);
+            jdbcTemplate.execute(sql);
             return allLines.size();
         } catch (IOException e) {
             throw new RuntimeException(e);
